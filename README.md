@@ -12,20 +12,28 @@ Other goals of this remix are:
 ## Why CentOS Stream?
 CentOS Stream is an LTS operating system which offers sofware for many purposes. It is flexible enough to get a custom version by using the installer ([see here for more details][02]).  The build process can be described through Kickstart files and can be modified to get new variants.
 
-## Prepare the build environment with lorax
+## Prepare the build environment with Lorax
 [See a detailed description][03] of how to build the live media.
-Install lorax for the virtual environment and create a bootable .iso:
+First, install Lorax to create the virtual environment:
 
 ```
 # dnf install lorax-lmc-virt
+```
 
+Prepare the target directory for build results:
+
+```
 # mkdir /results
 
 # chmod ugo+rwx /results
+```
 
+Create a bootable .iso for building environment:
+
+```
 # lorax --product='CentOS Stream' --version=<version> --release=<version> --nomacboot \
- --source='http://mirror.centos.org/centos/8-stream/AppStream/x86_64/os/' \
- --source='http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/' \
+ --source='http://mirror.centos.org/centos/<version>-stream/AppStream/x86_64/os/' \
+ --source='http://mirror.centos.org/centos/<version>-stream/BaseOS/x86_64/os/' \
  /results/lorax
 ```
 
@@ -36,7 +44,7 @@ Install live media tools:
 ```
 
 ## How to build the LiveCD
-In a nutshell, you have to choose a version (eg: KDE workstation with language support) and then create a single Kickstart file from the base code:
+In a nutshell, you have to choose a version (eg: KDE workstation with italian support) and then create a single Kickstart file from the base code:
 
 ```
 $ ksflatten --config /<source-path>/kickstarts/<version>/l10n/kde-workstation-it_IT.ks \
@@ -46,9 +54,9 @@ $ ksflatten --config /<source-path>/kickstarts/<version>/l10n/kde-workstation-it
 Then you can build the ISO image using the kickstart just obtained:
 
 ```
-# livemedia-creator --nomacboot --make-iso --tmp=/results --logfile=/results/lmc-logs/livemedia.log \
- --project='CentOS Stream' --releasever=<version> --iso=/results/lorax/images/boot.iso \ 
- --ks=/results/kde-workstation.ks
+# livemedia-creator --nomacboot --make-iso --project='CentOS Stream' --releasever=<version> \
+ --tmp=/results --logfile=/results/lmc-logs/livemedia.log \
+ --iso=/results/lorax/images/boot.iso --ks=/results/kde-workstation.ks
 ```
 
 ## Transferring the image to a bootable media
