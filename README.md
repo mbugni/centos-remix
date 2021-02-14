@@ -10,7 +10,7 @@ Other goals of this remix are:
 * and more...
 
 ## Why CentOS Stream?
-CentOS Stream is an LTS operating system which offers sofware for many purposes. It is flexible enough to get a custom version by using the installer ([see here for more details][02]).  The build process can be described through Kickstart files and can be modified to get new variants.
+CentOS Stream is an LTS operating system which offers sofware for many purposes. It is flexible enough to get a custom version by using the installer ([see here for more details][02]). The build process can be described through Kickstart files and can be modified to get new variants.
 
 ## Prepare the build environment with Lorax
 [See a detailed description][03] of how to build the live media.
@@ -34,21 +34,21 @@ Create a bootable .iso for building environment:
 # lorax --product='CentOS Stream' --version=<version> --release=<version> --nomacboot \
  --source='http://mirror.centos.org/centos/<version>-stream/AppStream/x86_64/os/' \
  --source='http://mirror.centos.org/centos/<version>-stream/BaseOS/x86_64/os/' \
- /results/lorax
-```
-
-Install live media tools:
-
-```
-# dnf install pykickstart livecd-iso-to-mediums
+ --logfile=/results/lorax-centos-<version>/lorax.log /results/lorax-centos-<version>
 ```
 
 ## How to build the LiveCD
-In a nutshell, you have to choose a version (eg: KDE workstation with italian support) and then create a single Kickstart file from the base code:
+Install live media tools:
+
+```
+# dnf install pykickstart
+```
+
+Choose a version (eg: KDE workstation with italian support) and then create a single Kickstart file from the base code:
 
 ```
 $ ksflatten --config /<source-path>/kickstarts/<version>/l10n/kde-workstation-it_IT.ks \
- --output /results/kde-workstation.ks
+ --output /results/centos-<version>-kde-workstation.ks
 ```
 
 Then you can build the ISO image using the kickstart just obtained:
@@ -56,14 +56,14 @@ Then you can build the ISO image using the kickstart just obtained:
 ```
 # livemedia-creator --nomacboot --make-iso --project='CentOS Stream' --releasever=<version> \
  --tmp=/results --logfile=/results/lmc-logs/livemedia.log \
- --iso=/results/lorax/images/boot.iso --ks=/results/kde-workstation.ks
+ --iso=/results/lorax-centos-<version>/images/boot.iso --ks=/results/centos-<version>-kde-workstation.ks
 ```
 
 ## Transferring the image to a bootable media
-You can create a bootable USB/SD device (legacy BIOS) using the iso image:
+You can create a bootable USB/SD device using the .iso image:
 
 ```
-# livecd-iso-to-disk --format --reset-mbr /results/lmc-work-<code>/images/boot.iso /dev/sd[X]
+# dd if=/results/lmc-work-<code>/images/boot.iso of=/dev/sd[X]
 ```
 
 ## Post-install tasks
@@ -96,6 +96,6 @@ The format is based on [Keep a Changelog][05].
 
 [01]: https://fedoraproject.org/wiki/Remix
 [02]: https://en.wikipedia.org/wiki/Anaconda_(installer)
-[03]: https://weldr.io/lorax/livemedia-creator.html
+[03]: https://weldr.io/lorax/lorax.html
 [04]: http://flagpedia.net/data/flags/mini/it.png
 [05]: https://keepachangelog.com/

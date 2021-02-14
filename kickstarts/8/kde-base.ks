@@ -2,8 +2,6 @@
 #
 # Defines the basics for the KDE desktop.
 
-services --enabled=sddm.service
-
 %include base-desktop.ks
 %include kde-packages.ks
 
