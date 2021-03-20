@@ -51,12 +51,13 @@ $ ksflatten --config /<source-path>/kickstarts/<version>/l10n/kde-workstation-it
  --output /results/centos-<version>-kde-workstation.ks
 ```
 
-Then you can build the ISO image using the kickstart just obtained:
+Then you can build the .iso image using the kickstart just obtained:
 
 ```
 # livemedia-creator --nomacboot --make-iso --project='CentOS Stream' --releasever=<version> \
  --tmp=/results --logfile=/results/lmc-logs/livemedia.log \
- --iso=/results/lorax-centos-<version>/images/boot.iso --ks=/results/centos-<version>-kde-workstation.ks
+ --iso=/results/lorax-centos-<version>/images/boot.iso \
+ --ks=/results/centos-<version>-kde-workstation.ks
 ```
 
 ## Transferring the image to a bootable media

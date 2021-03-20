@@ -4,9 +4,6 @@
 
 %packages --excludeWeakdeps
 
-# Unwanted stuff
--*akonadi*
-
 adwaita-gtk2-theme
 ark
 bluedevil
@@ -14,7 +11,7 @@ bluez-hid2hci
 bluez-obexd
 # cagibi
 dolphin
-f32-backgrounds-kde
+centos-backgrounds
 gnome-keyring-pam
 gwenview
 ibus
