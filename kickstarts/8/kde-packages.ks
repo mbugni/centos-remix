@@ -34,9 +34,9 @@ pam-kwallet
 phonon-qt5-backend-gstreamer
 plasma-breeze
 plasma-desktop
-# plasma-discover
-# plasma-discover-flatpak
-# plasma-discover-notifier
+plasma-discover
+plasma-discover-flatpak
+plasma-discover-notifier
 plasma-milou
 plasma-nm-l2tp
 plasma-nm-openvpn
@@ -49,8 +49,8 @@ sddm
 sddm-breeze
 sddm-kcm
 spectacle
-# svgpart
-# sweeper
+svgpart
+sweeper
 upower
 xdg-desktop-portal-kde
 
