@@ -38,6 +38,7 @@ psmisc
 centos-stream-release
 centos-stream-repos
 epel-release
+epel-next-release
 
 # Explicitly specified here:
 # <notting> walters: because otherwise dependency loops cause yum issues.
