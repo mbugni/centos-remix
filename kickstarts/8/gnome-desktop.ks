@@ -7,11 +7,14 @@
 
 %packages --excludeWeakdeps
 
+# Connectivity
+# gnome-shell-extension-gsconnect
+gvfs-mtp
+
 # Graphics
 cheese
 
 # Multimedia
-gvfs-mtp
 nautilus-extensions
 totem
 sushi

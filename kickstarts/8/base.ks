@@ -21,25 +21,12 @@ rootpw --lock --iscrypted locked
 shutdown
 
 %include base-repo.ks
+%include base-centos.ks
 
 %addon com_redhat_kdump --disable
 %end
 
 %packages --excludeWeakdeps
-@base-x
-@core
-@hardware-support
-bash-completion
-bind-utils
-microcode_ctl
-psmisc
-
-# Repositories
-centos-stream-release
-centos-stream-repos
-epel-release
-epel-next-release
-
 # Explicitly specified here:
 # <notting> walters: because otherwise dependency loops cause yum issues.
 kernel
@@ -54,10 +41,12 @@ memtest86+
 # The point of a live image is to install
 anaconda
 anaconda-install-env-deps
+anaconda-live
 # @anaconda-tools
 efibootmgr
-grub2-efi-*
-grub2-pc
+grub2-efi-ia32*
+grub2-efi-x64*
+grub2-pc*
 grub2-tools*
 shim-*
 syslinux-extlinux
@@ -305,9 +294,7 @@ EOF
 
 # work around for poor key import UI in PackageKit
 rm -f /var/lib/rpm/__db*
-releasever=$(rpm --eval '%{fedora}')
-basearch=$(uname -i)
-# Import keys of Fedora and 3rd party repository
+# Import keys of 3rd party repositories
 rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-*
 echo "Packages within this LiveCD"
 rpm -qa --qf '%{size}\t%{name}-%{version}-%{release}.%{arch}\n' |sort -rn

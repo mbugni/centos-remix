@@ -3,26 +3,27 @@
 # Defines the basics for a basic desktop environment.
 
 %include base.ks
-%include base-liveinst.ks
 
 %packages --excludeWeakdeps
 
 # Unwanted stuff
--PackageKit-command*
--abrt*
--fpaste
 -rsyslog
--sendmail
+
+# Common modules (see fedora-workstation-common.ks)
+@base-x
+@core
+@hardware-support
+bash-completion
+bind-utils
+# btrfs-progs
+microcode_ctl
+psmisc
 
 # Multimedia
-alsa-plugins-pulseaudio
-alsa-utils
+@multimedia
 libva-vdpau-driver
+# libvdpau-va-gl
 mesa-*-drivers
-pipewire-utils
-pulseaudio
-pulseaudio-module-*
-pulseaudio-utils
 xorg-x11-drivers
 
 # Fonts
@@ -45,19 +46,21 @@ firefox
 # Software
 PackageKit
 PackageKit-gstreamer-plugin
-drpm
 dnf-plugins-core
-drpm
+# drpm
 flatpak
 
 # System
 plymouth-theme-spinner
+rpm-plugin-systemd-inhibit
 
 # Tools
+blivet-gui			# Storage management
+exfatprogs
 htop
+nano
 neofetch
 rsync
-vim-enhanced
 # unar
 
 %end
@@ -154,8 +157,5 @@ echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
 
 # Set default boot theme
 plymouth-set-default-theme spinner
-
-# Enable PowerTools repo
-dnf config-manager --set-enabled powertools
 
 %end

@@ -7,13 +7,16 @@
 
 %packages --excludeWeakdeps
 
+# Connectivity
+kde-connect
+kio-extras
+
 # Graphics
 kamoso
 kdegraphics-thumbnailers
 
 # Multimedia
 ffmpegthumbnailer
-kio-extras
 vlc
 
 %end
@@ -74,12 +77,6 @@ Profile=Default
 EmailClient[\$e]=thunderbird
 TerminalClient=false
 EMAILDEFAULTS_EOF
-
-# Set Plasma default theme
-cat > /etc/skel/.config/plasmarc << PLASMARC_EOF
-[Theme]
-name=breeze-dark
-PLASMARC_EOF
 
 systemctl enable sddm.service
 
