@@ -78,6 +78,4 @@ EmailClient[\$e]=thunderbird
 TerminalClient=false
 EMAILDEFAULTS_EOF
 
-systemctl enable sddm.service
-
 %end

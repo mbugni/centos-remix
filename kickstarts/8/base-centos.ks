@@ -11,7 +11,6 @@ repo --name=centos-hyperscale-spin --mirrorlist=http://mirrorlist.centos.org/?re
 centos-stream-release
 centos-stream-repos
 epel-release
-epel-next-release
 
 %end
 

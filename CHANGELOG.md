@@ -1,3 +1,8 @@
+## CentOS 8 - 2021-09-19
+
+### Added
+- Building images with Podman.
+
 ## CentOS 8 - 2021-08-01
 
 ### Added

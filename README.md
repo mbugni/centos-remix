@@ -12,12 +12,14 @@ Other goals of this remix are:
 ## Why CentOS Stream?
 CentOS Stream is an LTS operating system which offers sofware for many purposes. It is flexible enough to get a custom version by using the installer ([see here for more details][02]). The build process can be described through Kickstart files and can be modified to get new variants.
 
-## Prepare the build environment with Lorax
+## How to build the LiveCD
 [See a detailed description][03] of how to build the live media.
-First, install Lorax to create the virtual environment:
+
+### Prepare the build target
+Install kickstart tools:
 
 ```
-# dnf install lorax-lmc-virt
+# dnf install pykickstart
 ```
 
 Prepare the target directory for build results:
@@ -26,6 +28,20 @@ Prepare the target directory for build results:
 # mkdir /results
 
 # chmod ugo+rwx /results
+```
+
+Choose a version (eg: KDE workstation with italian support) and then create a single Kickstart file from the base code:
+
+```
+$ ksflatten --config /<source-path>/kickstarts/<version>/l10n/kde-workstation-it_IT.ks \
+ --output /results/centos-<version>-kde-workstation.ks
+```
+
+### Build the live image using Lorax
+Install Lorax to create the virtual environment:
+
+```
+# dnf install lorax-lmc-virt
 ```
 
 Create a bootable .iso for building environment:
@@ -37,21 +53,7 @@ Create a bootable .iso for building environment:
  --logfile=/results/lorax-centos-<version>/lorax.log /results/lorax-centos-<version>
 ```
 
-## How to build the LiveCD
-Install live media tools:
-
-```
-# dnf install pykickstart
-```
-
-Choose a version (eg: KDE workstation with italian support) and then create a single Kickstart file from the base code:
-
-```
-$ ksflatten --config /<source-path>/kickstarts/<version>/l10n/kde-workstation-it_IT.ks \
- --output /results/centos-<version>-kde-workstation.ks
-```
-
-Then you can build the .iso image using the kickstart just obtained:
+Build the .iso image using the kickstart:
 
 ```
 # livemedia-creator --nomacboot --make-iso --project='CentOS Stream' --releasever=<version> \
@@ -60,11 +62,47 @@ Then you can build the .iso image using the kickstart just obtained:
  --ks=/results/centos-<version>-kde-workstation.ks
 ```
 
-## Transferring the image to a bootable media
-You can create a bootable USB/SD device using the .iso image:
+### Build the live image using Podman
+Install Podman:
 
 ```
-# dd if=/results/lmc-work-<code>/images/boot.iso of=/dev/sd[X]
+# dnf install podman
+```
+
+Create the container for building environment:
+
+```
+$ sudo podman build --file /<source-path>/tools/Dockerfile \
+ --build-arg releasever=<version> --tag centos/livebuild:<version>
+```
+
+Build the .iso image by running the container:
+
+```
+$ sudo podman run --privileged --volume=/dev:/dev --volume=/results:/results \
+ -it centos/livebuild:<version> livemedia-creator --no-virt --nomacboot \
+ --make-iso --project='CentOS Stream' --releasever=<version> \
+ --tmp=/results --logfile=/results/lmc-logs/livemedia.log \
+ --ks=/results/centos-<version>-kde-workstation.ks
+```
+
+Remove unused containers when finished:
+
+```
+$ sudo podman container prune
+```
+
+## Transferring the image to a bootable media
+Install live media tools:
+
+```
+# dnf install livecd-iso-to-mediums
+```
+
+Create a bootable USB/SD device using the .iso image:
+
+```
+# livecd-iso-to-disk --format --reset-mbr /results/lmc-work-<code>/images/boot.iso /dev/sd[X]
 ```
 
 ## Post-install tasks

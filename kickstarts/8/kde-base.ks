@@ -5,6 +5,14 @@
 %include base-desktop.ks
 %include kde-packages.ks
 
+repo --name=epel-next --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-next-$releasever&arch=$basearch
+
+%packages --excludeWeakdeps
+
+epel-next-release
+
+%end
+
 %post
 
 # set default GTK+ theme for root (see #683855, #689070, #808062)
@@ -83,5 +91,7 @@ chown -R liveuser:liveuser /home/liveuser/
 restorecon -R /home/liveuser/
 
 EOF
+
+systemctl enable sddm.service
 
 %end
