@@ -15,7 +15,6 @@ dolphin
 gnome-keyring-pam
 gwenview
 ibus
-kate
 kcalc
 kcharselect
 kcm_systemd
@@ -30,9 +29,10 @@ kscreen
 # ksysguard         Replaced by plasma-systemmonitor
 kwalletmanager5
 kwin
+kwrite
 okular
 pam-kwallet
-phonon-qt5-backend-gstreamer
+# phonon-qt5-backend-gstreamer
 plasma-breeze
 plasma-desktop
 plasma-discover

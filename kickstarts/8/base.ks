@@ -41,7 +41,7 @@ memtest86+
 # The point of a live image is to install
 anaconda
 anaconda-install-env-deps
-anaconda-live
+# anaconda-live
 # @anaconda-tools
 efibootmgr
 grub2-efi-ia32*

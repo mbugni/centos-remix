@@ -1,3 +1,9 @@
+## CentOS 8 - 2021-11-21
+
+### Changed
+- Use Anaconda scripts from source.
+- Modify some applications to GNOME and KDE.
+
 ## CentOS 8 - 2021-09-19
 
 ### Added

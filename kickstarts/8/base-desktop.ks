@@ -47,7 +47,6 @@ firefox
 PackageKit
 PackageKit-gstreamer-plugin
 dnf-plugins-core
-# drpm
 flatpak
 
 # System
@@ -61,7 +60,7 @@ htop
 nano
 neofetch
 rsync
-# unar
+unar
 
 %end
 

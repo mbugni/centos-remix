@@ -13,7 +13,6 @@ chrome-gnome-shell
 dconf
 dconf-editor
 # desktop-backgrounds-gnome
-eog
 evince
 evince-nautilus
 # fedora-release-workstation
@@ -42,7 +41,7 @@ gnome-terminal
 gnome-terminal-nautilus
 # gnome-themes-extra
 gnome-tweaks
-# gthumb
+gthumb
 gvfs-goa
 nautilus
 polkit
