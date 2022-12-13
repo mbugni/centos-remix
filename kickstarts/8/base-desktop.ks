@@ -24,6 +24,7 @@ psmisc
 libva-vdpau-driver
 # libvdpau-va-gl
 mesa-*-drivers
+vulkan-tools
 xorg-x11-drivers
 
 # Fonts
@@ -50,11 +51,12 @@ dnf-plugins-core
 flatpak
 
 # System
+plymouth-scripts
 plymouth-theme-spinner
 rpm-plugin-systemd-inhibit
 
 # Tools
-blivet-gui			# Storage management
+gparted				# Storage management
 exfatprogs
 htop
 nano
@@ -155,6 +157,6 @@ fi
 echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
 
 # Set default boot theme
-plymouth-set-default-theme spinner
+/usr/sbin/plymouth-set-default-theme spinner
 
 %end

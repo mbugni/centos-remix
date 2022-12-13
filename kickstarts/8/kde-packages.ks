@@ -5,13 +5,15 @@
 %packages --excludeWeakdeps
 
 adwaita-gtk2-theme
+aha                     # Convert terminal output to HTML for KDE tools
 ark
 bluedevil
 bluez-hid2hci
 bluez-obexd
 # cagibi
+centos-backgrounds
 dolphin
-# centos-backgrounds
+featherpad
 gnome-keyring-pam
 gwenview
 ibus
@@ -26,20 +28,12 @@ kinfocenter
 # kgamma
 konsole5
 kscreen
-# ksysguard         Replaced by plasma-systemmonitor
 kwalletmanager5
 kwin
-kwrite
 okular
 pam-kwallet
-# phonon-qt5-backend-gstreamer
 plasma-breeze
 plasma-desktop
-plasma-discover
-plasma-discover-flatpak
-plasma-discover-notifier
-# plasma-discover-offline-updates
-plasma-discover-packagekit
 plasma-milou
 plasma-nm-l2tp
 plasma-nm-openvpn
@@ -47,10 +41,10 @@ plasma-nm-pptp
 plasma-pa
 plasma-systemmonitor
 plasma-thunderbolt
-# plasma-user-manager   plasma now provides kcm_users
 plasma-workspace
 plasma-workspace-x11
 polkit-kde
+qt5-qtimageformats      # For images and backgrounds
 sddm
 sddm-breeze
 sddm-kcm

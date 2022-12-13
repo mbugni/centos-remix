@@ -1,16 +1,19 @@
-## CentOS 8 - 2021-11-21
+## CentOS 8 - 2022-12-13
+### Changed
+- Back to GParted.
+- Use podman to build images.
+- Include live scripts in kickstarts.
 
+## CentOS 8 - 2021-11-21
 ### Changed
 - Use Anaconda scripts from source.
 - Modify some applications to GNOME and KDE.
 
 ## CentOS 8 - 2021-09-19
-
 ### Added
 - Building images with Podman.
 
 ## CentOS 8 - 2021-08-01
-
 ### Added
 - KDE Connect.
 ### Changed

@@ -1,13 +1,17 @@
-# base-remix.ks
+# base-extras.ks
 #
-# Adds extra repos for software that the Fedora Project doesn't want to ship.
+# Adds extra components that the Fedora Project doesn't want to ship.
 
 # Extra repositories
+repo --name=epel --metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-$releasever&arch=$basearch&infra=$infra&content=$contentdir
 repo --name=rpmfusion-free-el-updates --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-el-updates-released-$releasever&arch=$basearch
 repo --name=rpmfusion-nonfree-el-updates --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-el-updates-released-$releasever&arch=$basearch
 repo --name=rpmfusion-free-el-tainted --mirrorlist=https://mirrors.rpmfusion.org/mirrorlist?repo=free-el-tainted-$releasever&arch=$basearch
 
 %packages --excludeWeakdeps
+
+# Extra repositories
+epel-release
 
 # RPM Fusion repositories
 rpmfusion-free-release

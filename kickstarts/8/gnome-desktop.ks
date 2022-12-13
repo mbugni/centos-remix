@@ -2,8 +2,10 @@
 #
 # Provides a basic Linux box based on GNOME desktop.
 
+%include base-desktop.ks
+%include base-extras.ks
+%include base-live.ks
 %include gnome-base.ks
-%include base-remix.ks
 
 %packages --excludeWeakdeps
 

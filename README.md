@@ -17,102 +17,85 @@ For more info [visit the documentation page][02].
 ### Prepare the build target
 Install kickstart tools:
 
-```
-# dnf install pykickstart
+```shell
+$ sudo dnf -y install pykickstart
 ```
 
 Prepare the target directory for build results:
 
-```
-# mkdir /results
+```shell
+$ sudo mkdir /result
 
-# chmod ugo+rwx /results
+$ sudo chmod ugo+rwx /result
 ```
 
 Choose a version (eg: KDE workstation with italian support) and then create a single Kickstart file from the base code:
 
-```
-$ ksflatten --config /<source-path>/kickstarts/<version>/l10n/kde-workstation-it_IT.ks \
- --output /results/centos-<version>-kde-workstation.ks
-```
-
-### Build the live image using Lorax
-Install Lorax to create the virtual environment:
-
-```
-# dnf install lorax-lmc-virt
+```shell
+$ ksflatten --config /<source-path>/kickstarts/8/l10n/kde-workstation-it_IT.ks \
+ --output /result/centos-8-kde-workstation.ks
 ```
 
-Create a bootable .iso for building environment:
+### Prepare the build enviroment using Podman
+Install Podman:
 
-```
-# lorax --product='CentOS Stream' --version=<version> --release=<version> --nomacboot \
- --source='http://mirror.centos.org/centos/<version>-stream/AppStream/x86_64/os/' \
- --source='http://mirror.centos.org/centos/<version>-stream/BaseOS/x86_64/os/' \
- --logfile=/results/lorax-centos-<version>/lorax.log /results/lorax-centos-<version>
+```shell
+$ sudo dnf -y install podman
 ```
 
-Build the .iso image using the kickstart:
+Create the root of the build enviroment:
 
+```shell
+$ sudo dnf -y --setopt='tsflags=nodocs' --setopt='install_weak_deps=False' \
+ --releasever=8 --installroot=/result/livebuild-8 --repo=baseos \
+ --repo=appstream install lorax-lmc-novirt
 ```
-# livemedia-creator --nomacboot --make-iso --project='CentOS Stream' --releasever=<version> \
- --tmp=/results --logfile=/results/lmc-logs/livemedia.log \
- --iso=/results/lorax-centos-<version>/images/boot.iso \
- --ks=/results/centos-<version>-kde-workstation.ks
+
+Create the container for building:
+
+```shell
+$ sudo sh -c 'tar -c -C /result/livebuild-8 . | podman import - centos/livebuild:8'
 ```
 
 ### Build the live image using Podman
-Install Podman:
+Build the .iso image by running the `livemedia-creator` command inside the container:
 
-```
-# dnf install podman
-```
-
-Create the container for building environment:
-
-```
-$ sudo podman build --file /<source-path>/tools/Dockerfile \
- --build-arg releasever=<version> --tag centos/livebuild:<version>
-```
-
-Build the .iso image by running the container:
-
-```
-$ sudo podman run --privileged --volume=/dev:/dev --volume=/results:/results \
- -it centos/livebuild:<version> livemedia-creator --no-virt --nomacboot \
- --make-iso --project='CentOS Stream' --releasever=<version> \
- --tmp=/results --logfile=/results/lmc-logs/livemedia.log \
- --ks=/results/centos-<version>-kde-workstation.ks
+```shell
+$ sudo podman run --privileged --volume=/dev:/dev --volume=/result:/result \
+ --volume=/lib/modules:/lib/modules -it centos/livebuild:8 \
+ livemedia-creator --no-virt --nomacboot --make-iso --project='CentOS Stream' \
+ --releasever=8 --tmp=/result --logfile=/result/lmc-logs/livemedia.log \
+ --ks=/result/centos-8-kde-workstation.ks
 ```
 
 Remove unused containers when finished:
 
-```
+```shell
 $ sudo podman container prune
 ```
 
 ## Transferring the image to a bootable media
 Install live media tools:
 
-```
-# dnf install livecd-iso-to-mediums
+```shell
+$ sudo dnf install livecd-iso-to-mediums
 ```
 
 Create a bootable USB/SD device using the .iso image:
 
-```
-# livecd-iso-to-disk --format --reset-mbr /results/lmc-work-<code>/images/boot.iso /dev/sd[X]
+```shell
+$ sudo livecd-iso-to-disk --format --reset-mbr /result/lmc-work-<code>/images/boot.iso /dev/sd[X]
 ```
 
 ## Post-install tasks
-The Anaconda installer does not remove itself after installation. You can remove it to get space by running this command:
+The Anaconda installer does not remove itself after installation. You can remove it to save space by running this command:
 
-```
-# dnf remove anaconda\*
+```shell
+$ sudo dnf remove anaconda\*
 ```
 
 ## ![Bandiera italiana][04] Per gli utenti italiani
-Questo è un Remix di CentOS Stream (analogo ad un [Remix di Fedora][01]) con il supporto in italiano per lingua e tastiera. Nell'immagine ISO che si ottiene sono già installati i pacchetti e le configurazioni per il funzionamento in italiano delle varie applicazioni (come l'ambiente grafico, la suite LibreOffice etc).
+Questo è un Remix di CentOS Stream (analogo ad un [Remix di Fedora][01]) con il supporto in italiano per lingua e tastiera. Nell'immagine .iso che si ottiene sono già installati i pacchetti e le configurazioni per il funzionamento in italiano delle varie applicazioni (come l'ambiente grafico, la suite LibreOffice etc).
 Nel sistema sono presenti anche:
 
 * repositori extra di uso comune
@@ -123,8 +106,8 @@ Nel sistema sono presenti anche:
 ### Attività post-installazione
 Il programma di installazione Anaconda non rimuove se stesso dopo l'installazione. E' possibile rimuoverlo per recuperare spazio utilizzando il seguente comando:
 
-```
-# dnf remove anaconda\*
+```shell
+$ sudo dnf remove anaconda\*
 ```
 
 ## Change Log
@@ -133,7 +116,7 @@ All notable changes to this project will be documented in the [`CHANGELOG.md`](C
 The format is based on [Keep a Changelog][05].
 
 [01]: https://fedoraproject.org/wiki/Remix
-[02]: https://mbugni.github.io/centos-remix.html
+[02]: https://mbugni.github.io/fedora-remix.html
 [03]: https://weldr.io/lorax/lorax.html
 [04]: http://flagpedia.net/data/flags/mini/it.png
 [05]: https://keepachangelog.com/

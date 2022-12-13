@@ -8,7 +8,7 @@
 
 lang en_US.UTF-8
 keyboard us
-timezone US/Eastern
+timezone --utc Etc/UTC
 selinux --permissive
 firewall --enabled --service=mdns
 xconfig --startxonboot

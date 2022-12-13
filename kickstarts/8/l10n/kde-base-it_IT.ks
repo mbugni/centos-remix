@@ -20,7 +20,7 @@ echo ""
 mkdir -p /etc/skel/.config/KDE
 
 # Plasma locale settings
-cat > /etc/skel/.config/plasma-localerc << PLASMALOCALE_EOF
+cat > /etc/xdg/plasma-localerc << PLASMALOCALE_EOF
 [Formats]
 LANG=it_IT.UTF-8
 
@@ -29,7 +29,7 @@ LANGUAGE=it
 PLASMALOCALE_EOF
 
 # KDE user locale settings
-cat >> /etc/skel/.config/kdeglobals << GLOBALS_EOF
+cat >> /etc/xdg/kdeglobals << GLOBALS_EOF
 [Locale]
 Country=it
 
