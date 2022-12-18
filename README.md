@@ -33,7 +33,7 @@ Choose a version (eg: KDE workstation with italian support) and then create a si
 
 ```shell
 $ ksflatten --config /<source-path>/kickstarts/l10n/kde-workstation-it_IT.ks \
- --output /result/centos-8-kde-workstation.ks
+ --output /result/centos-9-kde-workstation.ks
 ```
 
 ### Prepare the build enviroment using Podman
@@ -47,14 +47,14 @@ Create the root of the build enviroment:
 
 ```shell
 $ sudo dnf -y --setopt='tsflags=nodocs' --setopt='install_weak_deps=False' \
- --releasever=8 --installroot=/result/livebuild-8 --repo=baseos \
+ --releasever=9 --installroot=/result/livebuild-9 --repo=baseos \
  --repo=appstream install lorax-lmc-novirt
 ```
 
 Create the container for building:
 
 ```shell
-$ sudo sh -c 'tar -c -C /result/livebuild-8 . | podman import - centos/livebuild:8'
+$ sudo sh -c 'tar -c -C /result/livebuild-9 . | podman import - centos/livebuild:9'
 ```
 
 ### Build the live image using Podman
@@ -62,10 +62,10 @@ Build the .iso image by running the `livemedia-creator` command inside the conta
 
 ```shell
 $ sudo podman run --privileged --volume=/dev:/dev --volume=/result:/result \
- --volume=/lib/modules:/lib/modules -it centos/livebuild:8 \
+ --volume=/lib/modules:/lib/modules -it centos/livebuild:9 \
  livemedia-creator --no-virt --nomacboot --make-iso --project='CentOS Stream' \
- --releasever=8 --tmp=/result --logfile=/result/lmc-logs/livemedia.log \
- --ks=/result/centos-8-kde-workstation.ks
+ --releasever=9 --tmp=/result --logfile=/result/lmc-logs/livemedia.log \
+ --ks=/result/centos-9-kde-workstation.ks
 ```
 
 Remove unused containers when finished:
@@ -73,6 +73,42 @@ Remove unused containers when finished:
 ```shell
 $ sudo podman container prune
 ```
+
+### Building CentOS Stream using Fedora (alternative)
+Add CentOS repositories to the Fedora system and then build the Podman container.
+
+Create (as root) a file `/etc/yum.repos.d/centos-9-baseos.repo` :
+
+```
+[baseos9]
+name=CentOS Stream $releasever - BaseOS
+mirrorlist=https://mirrors.centos.org/metalink?repo=centos-baseos-$releasever-stream&arch=$basearch&protocol=https,http
+#baseurl=http://mirror.centos.org/$contentdir/$stream/BaseOS/$basearch/os/
+gpgcheck=1
+enabled=0
+gpgkey=https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official
+```
+
+Create (as root) a file `/etc/yum.repos.d/centos-9-appstream.repo` :
+
+```
+[appstream9]
+name=CentOS Stream $releasever - AppStream
+mirrorlist=https://mirrors.centos.org/metalink?repo=centos-appstream-$releasever-stream&arch=$basearch&protocol=https,http
+#baseurl=http://mirror.centos.org/$contentdir/$stream/AppStream/$basearch/os/
+gpgcheck=1
+enabled=0
+gpgkey=https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official
+```
+
+Create the root of the build enviroment:
+
+```shell
+sudo dnf -y --setopt='tsflags=nodocs' --setopt='install_weak_deps=False' --releasever=9 \
+ --installroot=/result/livebuild-9 --repo=baseos9 --repo=appstream9 install lorax-lmc-novirt
+```
+
+Create the container for building as above.
 
 ## Transferring the image to a bootable media
 Install live media tools:

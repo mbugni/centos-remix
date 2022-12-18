@@ -4,7 +4,7 @@
 
 %include kde-packages.ks
 
-repo --name=epel-next --mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-next-$releasever&arch=$basearch
+repo --name=epel-next --metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-next-$releasever&arch=$basearch&infra=$infra&content=$contentdir
 
 %packages --excludeWeakdeps
 
@@ -29,15 +29,22 @@ EOF
 # add initscript
 cat >> /etc/rc.d/init.d/livesys << EOF
 
+# are we *not* able to use wayland sessions?
+# if strstr "\`cat /proc/cmdline\`" nomodeset ; then
+PLASMA_SESSION_FILE="plasmax11.desktop"
+# else
+# PLASMA_SESSION_FILE="plasma.desktop"
+# fi
+
 # set up autologin for user liveuser
 if [ -f /etc/sddm.conf ]; then
 sed -i 's/^#User=.*/User=liveuser/' /etc/sddm.conf
-sed -i 's/^#Session=.*/Session=plasma.desktop/' /etc/sddm.conf
+sed -i "s/^#Session=.*/Session=\${PLASMA_SESSION_FILE}/" /etc/sddm.conf
 else
 cat > /etc/sddm.conf << SDDM_EOF
 [Autologin]
 User=liveuser
-Session=plasma.desktop
+Session=\${PLASMA_SESSION_FILE}
 SDDM_EOF
 fi
 
@@ -84,6 +91,15 @@ cat > /home/liveuser/.config/kwalletrc << KWALLET_EOL
 [Migration]
 alreadyMigrated=true
 KWALLET_EOL
+
+# Disable automount of 'known' devices
+# https://bugzilla.redhat.com/show_bug.cgi?id=2073708
+cat > /home/liveuser/.config/kded_device_automounterrc << AUTOMOUNTER_EOF
+[General]
+AutomountEnabled=false
+AutomountOnLogin=false
+AutomountOnPlugin=false
+AUTOMOUNTER_EOF
 
 # make sure to set the right permissions and selinux contexts
 chown -R liveuser:liveuser /home/liveuser/

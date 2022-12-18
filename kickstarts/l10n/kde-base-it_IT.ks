@@ -2,8 +2,6 @@
 #
 # Provides italian localization for the KDE desktop.
 
-%include base-desktop-it_IT.ks
-
 %packages --excludeWeakdeps
 
 kf5-ki18n
@@ -27,15 +25,6 @@ LANG=it_IT.UTF-8
 [Translations]
 LANGUAGE=it
 PLASMALOCALE_EOF
-
-# KDE user locale settings
-cat >> /etc/xdg/kdeglobals << GLOBALS_EOF
-[Locale]
-Country=it
-
-[Translations]
-LANGUAGE=it
-GLOBALS_EOF
 
 # KDE Sonnet locale settings
 cat > /etc/skel/.config/KDE/Sonnet.conf << SONNET_EOF

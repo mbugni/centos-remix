@@ -1,7 +1,12 @@
+## CentOS 9 - 2022-12-18
+### Changed
+- Move to CentOS Stream 9.
+- Featherpad editor replaces Kate.
+
 ## CentOS 8 - 2022-12-13
 ### Changed
 - Back to GParted.
-- Use podman to build images.
+- Use chroot and Podman to build images.
 - Include live scripts in kickstarts.
 
 ## CentOS 8 - 2021-11-21

@@ -44,7 +44,6 @@ anaconda-install-env-deps
 # anaconda-live
 # @anaconda-tools
 efibootmgr
-grub2-efi-ia32*
 grub2-efi-x64*
 grub2-pc*
 grub2-tools*

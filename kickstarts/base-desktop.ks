@@ -6,30 +6,59 @@
 
 %packages --excludeWeakdeps
 
-# Unwanted stuff
--rsyslog
-
 # Common modules (see fedora-workstation-common.ks)
-@base-x
-@core
-@hardware-support
+# Xorg modules (see @base-x)
+xorg-x11-server-Xorg
+xorg-x11-xauth
+xorg-x11-xinit
+
+# Xorg drivers (see @base-x)
+#libva-vdpau-driver
+#libvdpau-va-gl
+mesa-*-drivers
+xorg-x11-drivers
+#xorg-x11-drv-amdgpu
+
+# Xorg utils (see @base-x)
+egl-utils
+glx-utils
+vulkan-tools
+# xdpyinfo
+# xrandr
+
+# Core modules (see @core)
+dnf
+dnf-plugins-core
+fwupd
+grubby
+sudo
+# systemd-oomd-defaults
+systemd-resolved
+util-linux
+# zram-generator-defaults
+
+# Common utilities (see @base @standard)
 bash-completion
 bind-utils
 # btrfs-progs
-microcode_ctl
+less
+net-tools
 psmisc
+
+# Hardware support
+@hardware-support
+linux-firmware
+microcode_ctl
 
 # Multimedia
 @multimedia
-libva-vdpau-driver
-# libvdpau-va-gl
-mesa-*-drivers
-vulkan-tools
-xorg-x11-drivers
+libavcodec-free
+# gstreamer1-plugin-libav		# FFmpeg/LibAV GStreamer plugin
+libjxl							# Library files for JPEG-XL
 
 # Fonts
-google-noto-mono-fonts
 google-noto-sans-fonts
+google-noto-sans-mono-fonts
 google-noto-serif-fonts
 google-noto-emoji-color-fonts
 liberation-mono-fonts
@@ -45,9 +74,6 @@ firefox
 # mozilla-openh264
 
 # Software
-PackageKit
-PackageKit-gstreamer-plugin
-dnf-plugins-core
 flatpak
 
 # System
@@ -112,7 +138,7 @@ cat > /etc/fonts/local.conf << EOF_FONTS
 	<alias>
 		<family>monospace</family>
 		<prefer>
-			<family>Noto Mono</family>
+			<family>Noto Sans Mono</family>
 			<family>DejaVu Sans Mono</family>
 			<family>Liberation Mono</family>
 		</prefer>

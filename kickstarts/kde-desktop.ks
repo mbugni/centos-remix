@@ -20,7 +20,7 @@ kamoso
 kdegraphics-thumbnailers
 
 # Multimedia
-ffmpegthumbnailer
+# ffmpegthumbnailer
 vlc
 
 %end
@@ -43,7 +43,7 @@ BALOO_EOF
 # User global settings
 cat > /etc/xdg/kdeglobals << GLOBALS_EOF
 [General]
-fixed=Noto Mono,11
+fixed=Noto Sans Mono,11
 font=Noto Sans,11
 menuFont=Noto Sans,11
 smallestReadableFont=Noto Sans,10

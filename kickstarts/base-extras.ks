@@ -20,7 +20,7 @@ rpmfusion-nonfree-release
 rpmfusion-nonfree-release-tainted
 
 # Appstream data
-rpmfusion-*-appstream-data
+# rpmfusion-*-appstream-data
 
 # Multimedia
 gstreamer1-libav

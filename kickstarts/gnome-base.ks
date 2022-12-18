@@ -52,6 +52,18 @@ if [ -f /usr/share/applications/liveinst.desktop ]; then
 favorite-apps=['firefox.desktop', 'org.gnome.Nautilus.desktop', 'anaconda.desktop']
 FOE
 
+  # Make the welcome screen show up
+  if [ -f /usr/share/anaconda/gnome/fedora-welcome.desktop ]; then
+    mkdir -p ~liveuser/.config/autostart
+    cp /usr/share/anaconda/gnome/fedora-welcome.desktop /usr/share/applications/
+    cp /usr/share/anaconda/gnome/fedora-welcome.desktop ~liveuser/.config/autostart/
+  fi
+
+  # Disable GNOME welcome tour so it doesn't overlap with Fedora welcome screen
+  cat >> /usr/share/glib-2.0/schemas/org.gnome.shell.gschema.override << FOE
+welcome-dialog-last-shown-version='4294967295'
+FOE
+
   # Copy Anaconda branding in place
   if [ -d /usr/share/lorax/product/usr/share/anaconda ]; then
     cp -a /usr/share/lorax/product/* /
@@ -66,9 +78,6 @@ cat > /etc/gdm/custom.conf << FOE
 [daemon]
 AutomaticLoginEnable=True
 AutomaticLogin=liveuser
-# Force the login screen to use Xorg
-WaylandEnable=false
-DefaultSession=gnome-xorg.desktop
 FOE
 
 # Turn off PackageKit-command-not-found while uninstalled

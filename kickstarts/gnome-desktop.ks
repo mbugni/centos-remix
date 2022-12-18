@@ -7,6 +7,8 @@
 %include base-live.ks
 %include gnome-base.ks
 
+# firewall --enabled --service=mdns,kdeconnect
+
 %packages --excludeWeakdeps
 
 # Connectivity
@@ -35,7 +37,7 @@ cat > /etc/dconf/db/local.d/01-remix-gnome-settings << EOF_SETTINGS
 [org/gnome/desktop/interface]
 document-font-name='Noto Sans 11'
 font-name='Noto Sans 11'
-monospace-font-name='Noto Mono 11'
+monospace-font-name='Noto Sans Mono 11'
 
 [org/gnome/desktop/wm/preferences]
 titlebar-font='Noto Sans 11'

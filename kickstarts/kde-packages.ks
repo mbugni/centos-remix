@@ -8,10 +8,11 @@ adwaita-gtk2-theme
 aha                     # Convert terminal output to HTML for KDE tools
 ark
 bluedevil
-bluez-hid2hci
+# bluez-hid2hci
 bluez-obexd
+# bluez-tools
+breeze-gtk
 # cagibi
-centos-backgrounds
 dolphin
 featherpad
 gnome-keyring-pam
@@ -21,7 +22,6 @@ kcalc
 kcharselect
 kcm_systemd
 kde-gtk-config
-kde-settings-pulseaudio
 # kde-style-breeze
 kdeplasma-addons
 kinfocenter
@@ -45,7 +45,7 @@ plasma-workspace
 plasma-workspace-x11
 polkit-kde
 qt5-qtimageformats      # For images and backgrounds
-sddm
+sddm-x11
 sddm-breeze
 sddm-kcm
 spectacle

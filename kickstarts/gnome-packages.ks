@@ -12,12 +12,12 @@ adwaita-gtk2-theme
 # chrome-gnome-shell
 dconf
 dconf-editor
-# desktop-backgrounds-gnome
+desktop-backgrounds-gnome
 evince
 evince-nautilus
 # fedora-release-workstation
 file-roller
-# file-roller-nautilus
+file-roller-nautilus
 gdm
 gedit
 gnome-bluetooth
@@ -25,6 +25,7 @@ gnome-calculator
 gnome-characters
 gnome-color-manager
 gnome-control-center
+gnome-extensions-app
 gnome-font-viewer
 gnome-initial-setup
 gnome-screenshot

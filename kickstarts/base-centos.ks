@@ -16,7 +16,7 @@ echo ""
 echo "POST BASE CENTOS *************************************"
 echo ""
 
-# Enable PowerTools repo
-dnf config-manager --set-enabled powertools
+# Enable CRB (previously named PowerTools) repo
+dnf config-manager --set-enabled crb
 
 %end

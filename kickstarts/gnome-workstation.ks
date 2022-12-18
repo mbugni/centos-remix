@@ -19,6 +19,6 @@ vlc
 libreoffice-gtk3
 
 # Printers and scanners
-simple-scan
+# simple-scan
 
 %end
