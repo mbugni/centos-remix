@@ -47,14 +47,14 @@ Create the root of the build enviroment:
 
 ```shell
 $ sudo dnf -y --setopt='tsflags=nodocs' --setopt='install_weak_deps=False' \
- --releasever=9 --installroot=/result/livebuild-9 --repo=baseos \
+ --releasever=9 --installroot=/result/livebuild-c9 --repo=baseos \
  --repo=appstream install lorax-lmc-novirt
 ```
 
 Create the container for building:
 
 ```shell
-$ sudo sh -c 'tar -c -C /result/livebuild-9 . | podman import - centos/livebuild:9'
+$ sudo sh -c 'tar -c -C /result/livebuild-c9 . | podman import - centos/livebuild:c9'
 ```
 
 ### Build the live image using Podman
@@ -62,7 +62,7 @@ Build the .iso image by running the `livemedia-creator` command inside the conta
 
 ```shell
 $ sudo podman run --privileged --volume=/dev:/dev --volume=/result:/result \
- --volume=/lib/modules:/lib/modules -it centos/livebuild:9 \
+ --volume=/lib/modules:/lib/modules -it centos/livebuild:c9 \
  livemedia-creator --no-virt --nomacboot --make-iso --project='CentOS Stream' \
  --releasever=9 --tmp=/result --logfile=/result/lmc-logs/livemedia.log \
  --ks=/result/centos-9-kde-workstation.ks
@@ -80,7 +80,7 @@ Add CentOS repositories to the Fedora system and then build the Podman container
 Create (as root) a file `/etc/yum.repos.d/centos-9-baseos.repo` :
 
 ```
-[baseos9]
+[baseos-c9]
 name=CentOS Stream $releasever - BaseOS
 mirrorlist=https://mirrors.centos.org/metalink?repo=centos-baseos-$releasever-stream&arch=$basearch&protocol=https,http
 #baseurl=http://mirror.centos.org/$contentdir/$stream/BaseOS/$basearch/os/
@@ -92,7 +92,7 @@ gpgkey=https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official
 Create (as root) a file `/etc/yum.repos.d/centos-9-appstream.repo` :
 
 ```
-[appstream9]
+[appstream-c9]
 name=CentOS Stream $releasever - AppStream
 mirrorlist=https://mirrors.centos.org/metalink?repo=centos-appstream-$releasever-stream&arch=$basearch&protocol=https,http
 #baseurl=http://mirror.centos.org/$contentdir/$stream/AppStream/$basearch/os/
@@ -105,7 +105,7 @@ Create the root of the build enviroment:
 
 ```shell
 sudo dnf -y --setopt='tsflags=nodocs' --setopt='install_weak_deps=False' --releasever=9 \
- --installroot=/result/livebuild-9 --repo=baseos9 --repo=appstream9 install lorax-lmc-novirt
+ --installroot=/result/livebuild-c9 --repo=baseos-c9 --repo=appstream-c9 install lorax-lmc-novirt
 ```
 
 Create the container for building as above.

@@ -23,8 +23,8 @@ xorg-x11-drivers
 egl-utils
 glx-utils
 vulkan-tools
-# xdpyinfo
-# xrandr
+xorg-x11-server-utils
+xorg-x11-utils
 
 # Core modules (see @core)
 dnf
@@ -53,7 +53,6 @@ microcode_ctl
 # Multimedia
 @multimedia
 libavcodec-free
-# gstreamer1-plugin-libav		# FFmpeg/LibAV GStreamer plugin
 libjxl							# Library files for JPEG-XL
 
 # Fonts

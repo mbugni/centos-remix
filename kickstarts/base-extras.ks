@@ -24,9 +24,10 @@ rpmfusion-nonfree-release-tainted
 
 # Multimedia
 gstreamer1-libav
-# gstreamer1-vaapi
+gstreamer1-vaapi
 gstreamer1-plugins-bad-freeworld
 gstreamer1-plugins-ugly
+intel-media-driver
 libdvdcss
 
 # Tools
