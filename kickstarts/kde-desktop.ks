@@ -20,7 +20,7 @@ kamoso
 kdegraphics-thumbnailers
 
 # Multimedia
-# ffmpegthumbnailer
+ffmpegthumbs
 vlc
 
 %end

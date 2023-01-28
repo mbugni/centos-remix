@@ -52,7 +52,6 @@ microcode_ctl
 
 # Multimedia
 @multimedia
-libavcodec-free
 libjxl							# Library files for JPEG-XL
 
 # Fonts

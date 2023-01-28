@@ -23,6 +23,7 @@ rpmfusion-nonfree-release-tainted
 # rpmfusion-*-appstream-data
 
 # Multimedia
+ffmpeg
 gstreamer1-libav
 gstreamer1-vaapi
 gstreamer1-plugins-bad-freeworld
