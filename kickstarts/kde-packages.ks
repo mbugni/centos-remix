@@ -5,7 +5,7 @@
 %packages --excludeWeakdeps
 
 adwaita-gtk2-theme
-aha                     # Convert terminal output to HTML for KDE tools
+aha                         # Convert terminal output to HTML for KDE tools
 ark
 bluedevil
 # bluez-hid2hci
@@ -13,6 +13,7 @@ bluez-obexd
 # bluez-tools
 breeze-gtk
 # cagibi
+desktop-backgrounds-compat  # Default backgrounds for SDDM
 dolphin
 featherpad
 gnome-keyring-pam

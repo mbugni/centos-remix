@@ -102,8 +102,4 @@ EOF
 # Enable SDDM login manager
 systemctl enable sddm.service
 
-# Replace default background for applications like SDDM
-mv /usr/share/backgrounds/default.png /usr/share/backgrounds/default.orig.png
-ln -s /usr/share/wallpapers/Fedora/contents/images/1920x1080.png  /usr/share/backgrounds/default.png
-
 %end
