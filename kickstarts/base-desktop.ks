@@ -3,6 +3,7 @@
 # Defines the basics for a basic desktop environment.
 
 %include base.ks
+%include base-centos.ks
 
 %packages --excludeWeakdeps
 
@@ -52,6 +53,7 @@ microcode_ctl
 
 # Multimedia
 @multimedia
+gstreamer1-plugins-bad-free
 libjxl							# Library files for JPEG-XL
 
 # Fonts

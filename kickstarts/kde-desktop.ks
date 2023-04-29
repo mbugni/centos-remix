@@ -4,7 +4,6 @@
 
 %include base-desktop.ks
 %include base-extras.ks
-%include base-live.ks
 %include kde-base.ks
 
 firewall --enabled --service=mdns,kdeconnect

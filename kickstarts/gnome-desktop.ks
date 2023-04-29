@@ -4,7 +4,6 @@
 
 %include base-desktop.ks
 %include base-extras.ks
-%include base-live.ks
 %include gnome-base.ks
 
 # firewall --enabled --service=mdns,kdeconnect
@@ -22,6 +21,7 @@ cheese
 nautilus-extensions
 totem
 sushi
+vlc
 
 %end
 

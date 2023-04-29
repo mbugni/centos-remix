@@ -1,3 +1,7 @@
+## CentOS 9 - 2023-04-29
+### Changed
+- Adopt [livesys scripts][0901]
+
 ## CentOS 9 - 2022-12-18
 ### Changed
 - Move to CentOS Stream 9.
@@ -25,3 +29,5 @@
 - Enable EPEL Next.
 - Blivet-gui instead of GParted.
 - Adopt Anaconda installer from Hyperscale SIG.
+
+[0901]: https://fedoraproject.org/wiki/Changes/ModernizeLiveMedia

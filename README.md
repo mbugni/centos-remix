@@ -14,14 +14,20 @@ For more info [visit the documentation page][02].
 ## How to build the LiveCD
 [See a detailed description][03] of how to build the live media.
 
-### Prepare the build target
+### Prepare the build directories
+Clone the project to get sources:
+
+```shell
+$ git clone https://github.com/mbugni/centos-remix.git /<source-path>
+```
+
 Install kickstart tools:
 
 ```shell
 $ sudo dnf -y install pykickstart
 ```
 
-Prepare the target directory for build results:
+Prepare the target directory for building results:
 
 ```shell
 $ sudo mkdir /result
@@ -51,7 +57,7 @@ $ sudo dnf -y --setopt='tsflags=nodocs' --setopt='install_weak_deps=False' \
  --repo=appstream install lorax-lmc-novirt
 ```
 
-Create the container for building:
+Pack the build enviroment into a Podman container:
 
 ```shell
 $ sudo sh -c 'tar -c -C /result/livebuild-c9 . | podman import - centos/livebuild:c9'
@@ -67,6 +73,8 @@ $ sudo podman run --privileged --volume=/dev:/dev --volume=/result:/result \
  --releasever=9 --tmp=/result --logfile=/result/lmc-logs/livemedia.log \
  --ks=/result/centos-9-kde-workstation.ks
 ```
+
+The build can take a while (40 minutes or more), it depends on your machine performances.
 
 Remove unused containers when finished:
 
@@ -124,10 +132,12 @@ $ sudo livecd-iso-to-disk --format --reset-mbr /result/lmc-work-<code>/images/bo
 ```
 
 ## Post-install tasks
-The Anaconda installer does not remove itself after installation. You can remove it to save space by running this command:
+After installation, you can remove live system components to save space by running these commands:
 
 ```shell
-$ sudo dnf remove anaconda\*
+$ sudo systemctl disable livesys.service
+$ sudo systemctl disable livesys-late.service
+$ sudo dnf remove anaconda\* livesys-scripts
 ```
 
 ## ![Bandiera italiana][04] Per gli utenti italiani
