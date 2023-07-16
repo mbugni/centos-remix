@@ -149,13 +149,6 @@ Nel sistema sono presenti anche:
 * supporto per l'ufficio (stampanti e scanner)
 * e altre funzionalità ancora...
 
-### Attività post-installazione
-Il programma di installazione Anaconda non rimuove se stesso dopo l'installazione. E' possibile rimuoverlo per recuperare spazio utilizzando il seguente comando:
-
-```shell
-$ sudo dnf remove anaconda\*
-```
-
 ## Change Log
 All notable changes to this project will be documented in the [`CHANGELOG.md`](CHANGELOG.md) file.
 

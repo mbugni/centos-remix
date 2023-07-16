@@ -1,6 +1,7 @@
 ## CentOS 9 - 2023-04-29
 ### Changed
 - Adopt [livesys scripts][0901]
+- Reduced kickstart files
 
 ## CentOS 9 - 2022-12-18
 ### Changed

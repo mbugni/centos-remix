@@ -2,7 +2,13 @@
 #
 # Provides support for office automation. Adds extra repos for print drivers.
 
+firewall --enabled --service=mdns,kdeconnect
+
 %packages --excludeWeakdeps
+
+# Fonts
+liberation-mono-fonts
+liberation-s*-fonts
 
 # Graphics
 sane-backends-drivers-cameras
@@ -10,6 +16,9 @@ sane-backends-drivers-scanners
 
 # Internet
 thunderbird
+
+# Networking
+@networkmanager-submodules
 
 # Printing
 @print-client
@@ -22,6 +31,9 @@ libreoffice-calc
 libreoffice-impress
 libreoffice-writer
 
+# Software
+flatpak
+
 %end
 
 
@@ -30,9 +42,6 @@ libreoffice-writer
 echo ""
 echo "POST BASE WORKSTATION ********************************"
 echo ""
-
-# Link Wine fonts to system folder
-ln -s /usr/share/wine/fonts /usr/share/fonts/wine
 
 # OpenPrinting/Database/DriverPackages based on the LSB 3.2
 cat > /etc/yum.repos.d/openprinting-drivers.repo << OPENPRINTING_REPO_EOF

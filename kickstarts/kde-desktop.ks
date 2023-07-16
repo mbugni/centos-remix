@@ -6,13 +6,7 @@
 %include base-extras.ks
 %include kde-base.ks
 
-firewall --enabled --service=mdns,kdeconnect
-
 %packages --excludeWeakdeps
-
-# Connectivity
-kde-connect
-kio-extras
 
 # Graphics
 kamoso
@@ -21,6 +15,52 @@ kdegraphics-thumbnailers
 # Multimedia
 ffmpegthumbs
 vlc
+
+# KDE desktop
+adwaita-gtk2-theme
+aha                     # Convert terminal output to HTML for KDE tools
+ark
+breeze-gtk
+#cagibi
+dolphin
+featherpad
+#fedora-release-kde
+gnome-keyring-pam
+gwenview
+ibus
+kcalc
+kcharselect
+kcm_systemd
+kde-gtk-config
+#kde-style-breeze
+kdeplasma-addons
+kinfocenter
+#kgamma
+konsole5
+kscreen
+kwalletmanager5
+kwin
+okular
+pam-kwallet
+plasma-breeze
+plasma-desktop
+plasma-milou
+plasma-nm               # Network Manager
+plasma-pa               # Pulse Audio
+plasma-systemmonitor
+plasma-thunderbolt
+plasma-workspace
+plasma-workspace-x11
+polkit-kde
+qt5-qtimageformats      # For images and backgrounds
+sddm-x11
+sddm-breeze
+sddm-kcm
+spectacle
+svgpart
+sweeper
+upower
+xdg-desktop-portal-kde
 
 %end
 
@@ -82,6 +122,12 @@ Profile=Default
 EmailClient[\$e]=thunderbird
 TerminalClient=false
 EMAILDEFAULTS_EOF
+
+# Set default text editor
+cat > /etc/xdg/mimeapps.list << MIMEAPPS_EOF
+[Default Applications]
+text/plain=featherpad.desktop;
+MIMEAPPS_EOF
 
 # No Discover, replace icon by terminal emulator
 sed -i 's/applications:org.kde.discover.desktop/applications:org.kde.konsole.desktop/' \

@@ -15,7 +15,7 @@ xconfig --startxonboot
 zerombr
 clearpart --all
 part / --size 8192 --fstype ext4
-services --enabled=NetworkManager,ModemManager --disabled=sshd,NetworkManager-wait-online
+services --disabled=sshd,NetworkManager-wait-online
 network --bootproto=dhcp --device=link --activate
 rootpw --lock --iscrypted locked
 shutdown
@@ -33,7 +33,7 @@ kernel-modules-extra
 # This was added a while ago, I think it falls into the category of
 # "Diagnosis/recovery tool useful from a Live OS image".  Leaving this untouched
 # for now.
-memtest86+
+memtest86+      # Keep this for CentOS, otherwise lorax x86.tmpl will fail
 
 # The point of a live image is to install
 anaconda
@@ -75,8 +75,6 @@ EOF
 
 # work around for poor key import UI in PackageKit
 rm -f /var/lib/rpm/__db*
-# Import keys of 3rd party repositories
-rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-*
 echo "Packages within this LiveCD"
 rpm -qa --qf '%{size}\t%{name}-%{version}-%{release}.%{arch}\n' |sort -rn
 # Note that running rpm recreates the rpm db files which aren't needed or wanted

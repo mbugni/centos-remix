@@ -5,6 +5,8 @@
 %include base.ks
 %include base-centos.ks
 
+firewall --enabled --service=mdns
+
 %packages --excludeWeakdeps
 
 # Common modules (see fedora-workstation-common.ks)
@@ -16,7 +18,9 @@ xorg-x11-xinit
 # Xorg drivers (see @base-x)
 #libva-vdpau-driver
 #libvdpau-va-gl
-mesa-*-drivers
+mesa-dri-drivers
+#mesa-omx-drivers
+mesa-vulkan-drivers
 xorg-x11-drivers
 #xorg-x11-drv-amdgpu
 
@@ -38,7 +42,7 @@ systemd-resolved
 util-linux
 # zram-generator-defaults
 
-# Common utilities (see @base @standard)
+# Common utilities
 bash-completion
 bind-utils
 # btrfs-progs
@@ -46,35 +50,36 @@ less
 net-tools
 psmisc
 
-# Hardware support
-@hardware-support
-linux-firmware
-microcode_ctl
-
-# Multimedia
-@multimedia
-gstreamer1-plugins-bad-free
-libjxl							# Library files for JPEG-XL
-
 # Fonts
 google-noto-sans-fonts
 google-noto-sans-mono-fonts
 google-noto-serif-fonts
 google-noto-emoji-color-fonts
-liberation-mono-fonts
-liberation-s*-fonts
 
-# Networking
-@networkmanager-submodules
-firewalld
-firewall-config
+# Hardware support
+@hardware-support
+linux-firmware
+microcode_ctl
 
 # Internet
 firefox
-# mozilla-openh264
 
-# Software
-flatpak
+# Multimedia
+PackageKit-gstreamer-plugin
+alsa-utils
+gstreamer1-plugins-bad-free
+gstreamer1-plugins-good
+libjxl							# Library files for JPEG-XL
+pipewire-alsa
+pipewire-gstreamer
+pipewire-jack-audio-connection-kit
+pipewire-pulseaudio
+pipewire-utils
+
+# Networking
+NetworkManager-wifi
+firewalld
+firewall-config
 
 # System
 plymouth-scripts
@@ -82,6 +87,7 @@ plymouth-theme-spinner
 rpm-plugin-systemd-inhibit
 
 # Tools
+clinfo
 gparted				# Storage management
 exfatprogs
 htop
@@ -154,13 +160,13 @@ if [ -n "\$PS1" ]; then
 		if [ \${UID} -eq 0 ]; then
 			PS1='\[\e[91m\]\u@\h \[\e[93m\]\W\[\e[0m\]\\$ '
 		else
-			PS1='\[\e[92m\]\u@\h \[\e[93m\]\W\[\e[0m\]\\$ '
+			PS1='\[\e[94m\]\u@\h \[\e[93m\]\W\[\e[0m\]\\$ '
 		fi
 	else
 		if [ \${UID} -eq 0 ]; then
 			PS1='\[\e[31m\]\u@\h \[\e[33m\]\W\[\e[0m\]\\$ '
 		else
-			PS1='\[\e[32m\]\u@\h \[\e[33m\]\W\[\e[0m\]\\$ '
+			PS1='\[\e[34m\]\u@\h \[\e[33m\]\W\[\e[0m\]\\$ '
 		fi
 	fi
 fi

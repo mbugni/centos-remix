@@ -2,7 +2,13 @@
 #
 # Defines the basics for the KDE desktop.
 
-%include kde-packages.ks
+repo --name=epel-next --metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-next-$releasever&arch=$basearch&infra=$infra&content=$contentdir
+
+%packages --excludeWeakdeps
+
+epel-next-release
+
+%end
 
 %post
 
@@ -25,7 +31,7 @@ sed -i 's/^livesys_session=.*/livesys_session="kde"/' /etc/sysconfig/livesys
 mkdir -p /var/lib/livesys
 cat >> /var/lib/livesys/livesys-session-extra << EOF_LIVESYS
 # Use KDE X11 for auto-login session
-sed -i "s/^Session=.*/Session=plasmax11.desktop/" /etc/sddm.conf
+sed -i "s/^Session=.*/Session=plasma.desktop/" /etc/sddm.conf
 EOF_LIVESYS
 
 cat >> /etc/sddm.conf.d/local.conf << EOF_SDDM
