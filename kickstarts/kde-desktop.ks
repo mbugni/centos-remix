@@ -18,10 +18,11 @@ vlc
 
 # KDE desktop
 adwaita-gtk2-theme
-aha                     # Convert terminal output to HTML for KDE tools
+aha                         # Convert terminal output to HTML for KDE tools
 ark
 breeze-gtk
 #cagibi
+desktop-backgrounds-compat  # For SDDM login background
 dolphin
 featherpad
 #fedora-release-kde
@@ -132,5 +133,8 @@ MIMEAPPS_EOF
 # No Discover, replace icon by terminal emulator
 sed -i 's/applications:org.kde.discover.desktop/applications:org.kde.konsole.desktop/' \
 /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
+
+# Temporary hack to crate missing SDDM user (see RHBZ #2229355)
+systemd-sysusers
 
 %end
