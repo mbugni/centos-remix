@@ -21,6 +21,9 @@ nautilus-extensions
 sushi
 vlc
 
+# Qt support for GNOME
+qgnomeplatform
+
 # GNOME desktop
 PackageKit-gtk3-module
 adwaita-gtk2-theme

@@ -17,7 +17,6 @@ gvfs-mtp
 # Multimedia
 brasero
 brasero-nautilus
-vlc
 
 # Networking
 NetworkManager-l2tp-gnome
@@ -29,8 +28,5 @@ libreoffice-gtk3
 
 # Printers and scanners
 # simple-scan
-
-# Qt support for GNOME
-qgnomeplatform
 
 %end
