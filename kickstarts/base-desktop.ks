@@ -69,6 +69,7 @@ PackageKit-gstreamer-plugin
 alsa-utils
 gstreamer1-plugins-bad-free
 gstreamer1-plugins-good
+gstreamer1-plugins-ugly-free
 libjxl							# Library files for JPEG-XL
 pipewire-alsa
 pipewire-gstreamer

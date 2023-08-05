@@ -4,7 +4,7 @@
 
 # Extra repositories
 repo --name=epel --metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-$releasever&arch=$basearch&infra=$infra&content=$contentdir
-repo --name=ree-el-tainted --metalink=https://mirrors.rpmfusion.org/metalink?repo=free-el-tainted-$releasever&arch=$basearch
+repo --name=free-el-tainted --metalink=https://mirrors.rpmfusion.org/metalink?repo=free-el-tainted-$releasever&arch=$basearch
 repo --name=free-el-updates-released --metalink=http://mirrors.rpmfusion.org/metalink?repo=free-el-updates-released-$releasever&arch=$basearch
 repo --name=nonfree-el-tainted --metalink=https://mirrors.rpmfusion.org/metalink?repo=nonfree-el-tainted-$releasever&arch=$basearch
 repo --name=nonfree-el-updates --metalink=http://mirrors.rpmfusion.org/metalink?repo=nonfree-el-updates-released-$releasever&arch=$basearch
