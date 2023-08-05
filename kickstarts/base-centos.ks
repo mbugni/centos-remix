@@ -179,10 +179,10 @@ cat >> /usr/share/applications/liveinst.desktop << EOF_DESKTOP
 [Desktop Entry]
 Name=Install to Hard Drive
 GenericName=Install
-Comment=Install the live CD to your hard disk
+Comment=Install the live image to your hard disk
 Name[it]=Installa sul disco rigido
 GenericName[it]=Installa
-Comment[it]=Installa il live CD sul disco rigido
+Comment[it]=Installa l'immagine live sul disco rigido
 Categories=System;Utility;X-Red-Hat-Base;X-Fedora;GNOME;GTK;
 Exec=/usr/bin/sudo /usr/bin/liveinst
 Terminal=false

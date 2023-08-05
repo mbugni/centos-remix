@@ -3,7 +3,6 @@
 # Defines the basics for a basic desktop environment.
 
 %include base.ks
-%include base-centos.ks
 
 firewall --enabled --service=mdns
 
