@@ -77,8 +77,8 @@ $ sudo sh -c 'tar -c -C /result/livebuild-c9 . | podman import - centos/livebuil
 Build the .iso image by running the `livemedia-creator` command inside the container:
 
 ```shell
-$ sudo podman run --privileged --volume=/dev:/dev --volume=/result:/result \
- --volume=/lib/modules:/lib/modules -it centos/livebuild:c9 \
+$ sudo podman run --privileged --volume=/result:/result --volume=/dev:/dev:ro \
+ --volume=/lib/modules:/lib/modules:ro -it centos/livebuild:c9 \
  livemedia-creator --no-virt --nomacboot --make-iso --project='CentOS Stream' \
  --releasever=9 --tmp=/result --logfile=/result/lmc-logs/livemedia.log \
  --ks=/result/centos-9-kde-workstation.ks
