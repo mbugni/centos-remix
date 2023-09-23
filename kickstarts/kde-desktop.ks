@@ -91,12 +91,6 @@ toolBarFont=Noto Sans,11
 
 [KDE]
 SingleClick=false
-
-# HOW: https://develop.kde.org/deploy/kiosk/introduction/
-# WHY: https://bugzilla.redhat.com/show_bug.cgi?id=1929643
-[KDE Action Restrictions]
-action/start_new_session=false
-action/switch_user=false
 GLOBALS_EOF
 
 # Sudo settings
@@ -133,8 +127,5 @@ MIMEAPPS_EOF
 # No Discover, replace icon by terminal emulator
 sed -i 's/applications:org.kde.discover.desktop/applications:org.kde.konsole.desktop/' \
 /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
-
-# Temporary hack to crate missing SDDM user (see RHBZ #2229355)
-systemd-sysusers
 
 %end
