@@ -14,7 +14,6 @@ For more info [visit the documentation page][02].
 ## How to build the LiveCD
 [See a detailed description][03] of how to build the live media.
 
----
 **NOTE**
 
 If `selinux` is on, disable it during the build process:
@@ -22,7 +21,6 @@ If `selinux` is on, disable it during the build process:
 ```shell
 $ sudo setenforce 0
 ```
----
 
 ### Prepare the build directories
 Clone the project to get sources:
@@ -50,6 +48,20 @@ Choose a version (eg: KDE workstation with italian support) and then create a si
 ```shell
 $ ksflatten --config /<source-path>/kickstarts/l10n/kde-workstation-it_IT.ks \
  --output /result/centos-9-kde-workstation.ks
+```
+
+### Checking dependencies (optional)
+Run the `ks-package-list.py` tool from [Fedora remix][06] if you need to check Kickstart dependencies:
+
+```shell
+$ /<fedora-remix-source-path>/tools/ks-package-list.py --stream 9 \
+  /result/centos-9-kde-workstation.ks
+```
+
+Use the `--help` option to get more info about the tool:
+
+```shell
+$ /<fedora-remix-source-path>/tools/ks-package-list.py --help
 ```
 
 ### Prepare the build enviroment using Podman
@@ -169,3 +181,4 @@ The format is based on [Keep a Changelog][05].
 [03]: https://weldr.io/lorax/lorax.html
 [04]: http://flagpedia.net/data/flags/mini/it.png
 [05]: https://keepachangelog.com/
+[06]: https://github.com/mbugni/fedora-remix/tree/main/tools
