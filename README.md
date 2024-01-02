@@ -1,15 +1,14 @@
-# centos-remix
+# CentOS Remix
 
 ## Purpose
-This project is a CentOS Stream Remix (like a [Fedora Remix][01]) and aims to offer a complete system for multipurpose usage with localization support. You can build a live image and try the software, and then install it in your PC if you want.
-Other goals of this remix are:
+This project is a CentOS Stream Remix (like a [Fedora Remix][01]) and aims to offer a complete system for multipurpose usage with localization support. You can [download a live image][02] and try the software, and then install it in your PC if you want.
+You can also customize the image starting from available scripts.
 
+Other goals of this remix are:
 * common extra-repos
-* multimedia apps
+* multimedia apps support
 * office automation support (printers and scanners)
 * and more...
-
-For more info [visit the documentation page][02].
 
 ## How to build the LiveCD
 [See a detailed description][03] of how to build the live media.
@@ -22,123 +21,89 @@ If `selinux` is on, disable it during the build process:
 $ sudo setenforce 0
 ```
 
-### Prepare the build directories
+### Prepare the working directories
 Clone the project to get sources:
 
 ```shell
 $ git clone https://github.com/mbugni/centos-remix.git /<source-path>
 ```
 
-Install kickstart tools:
+Choose or create a `/<target-path>` where to put results.
+
+### Prepare the build container
+Install Podman:
 
 ```shell
-$ sudo dnf -y install pykickstart
+$ sudo dnf --assumeyes install podman
 ```
 
-Prepare the target directory for building results:
+Create the container for the build enviroment:
 
 ```shell
-$ sudo mkdir /result
-
-$ sudo chmod ugo+rwx /result
+$ sudo podman build --file=/<source-path>/Containerfile --tag=livebuild:el9
 ```
 
-Choose a version (eg: KDE workstation with italian support) and then create a single Kickstart file from the base code:
+Initialize the container by running an interactive shell:
 
 ```shell
-$ ksflatten --config /<source-path>/kickstarts/l10n/kde-workstation-it_IT.ks \
- --output /result/centos-9-kde-workstation.ks
+$ sudo podman run --privileged --network=host -it \ 
+ --volume=/dev:/dev:ro --volume=/lib/modules:/lib/modules:ro \
+ --volume=/<source-path>:/live/source:ro --volume=/<target-path>:/live/target \
+ --name=livebuild-el9 --hostname=livebuild-el9 livebuild:el9 /usr/bin/bash
 ```
 
-### Checking dependencies (optional)
-Run the `ks-package-list.py` tool from [Fedora remix][06] if you need to check Kickstart dependencies:
+The container can be reused and upgraded multiple times. See [Podman docs][06] for more details.
+
+To enter again into the build container:
 
 ```shell
-$ /<fedora-remix-source-path>/tools/ks-package-list.py --stream 9 \
-  /result/centos-9-kde-workstation.ks
+$ sudo podman start -ia livebuild-el9
+```
+
+### Build the image
+
+Run build commands inside the container.
+
+#### Prepare the kickstart file
+
+Choose a version (eg: KDE workstation with italian support) and then create a single Kickstart file from the source code:
+
+```shell
+[] ksflatten --config /live/source/kickstarts/l10n/kde-workstation-it_IT.ks \
+ --output /live/target/el9-kde-workstation.ks
+```
+
+#### Check dependencies (optional)
+Run the `ks-package-list` command if you need to check Kickstart dependencies:
+
+```shell
+[] ks-package-list --stream 9 --format "{name}" --verbose \
+ /live/target/el9-kde-workstation.ks > /live/target/el9-kde-packages.txt
 ```
 
 Use the `--help` option to get more info about the tool:
 
 ```shell
-$ /<fedora-remix-source-path>/tools/ks-package-list.py --help
+[] ks-package-list --help
 ```
 
-### Prepare the build enviroment using Podman
-Install Podman:
+#### Create the live image
+Build the .iso image by running the `livemedia-creator` command:
 
 ```shell
-$ sudo dnf -y install podman
+[] livemedia-creator --no-virt --nomacboot --make-iso --project='CentOS Stream' \
+ --releasever=9 --tmp=/live/target --logfile=/live/target/lmc-logs/livemedia.log \
+ --ks=/live/target/el9-kde-workstation.ks
 ```
 
-Create the root of the build enviroment:
+The build can take a while (30 minutes or more), it depends on your machine performances.
+
+Remove unused resources when don't need anymore:
 
 ```shell
-$ sudo dnf -y --setopt='tsflags=nodocs' --setopt='install_weak_deps=False' \
- --releasever=9 --installroot=/result/livebuild-c9 --repo=baseos \
- --repo=appstream install lorax-lmc-novirt
+$ sudo podman container rm --force livebuild-el9
+$ sudo podman image rm livebuild:el9
 ```
-
-Pack the build enviroment into a Podman container:
-
-```shell
-$ sudo sh -c 'tar -c -C /result/livebuild-c9 . | podman import - centos/livebuild:c9'
-```
-
-### Build the live image using Podman
-Build the .iso image by running the `livemedia-creator` command inside the container:
-
-```shell
-$ sudo podman run --privileged --volume=/result:/result --volume=/dev:/dev:ro \
- --volume=/lib/modules:/lib/modules:ro -it centos/livebuild:c9 \
- livemedia-creator --no-virt --nomacboot --make-iso --project='CentOS Stream' \
- --releasever=9 --tmp=/result --logfile=/result/lmc-logs/livemedia.log \
- --ks=/result/centos-9-kde-workstation.ks
-```
-
-The build can take a while (40 minutes or more), it depends on your machine performances.
-
-Remove unused containers when finished:
-
-```shell
-$ sudo podman container prune
-```
-
-### Building CentOS Stream using Fedora (alternative)
-Add CentOS repositories to the Fedora system and then build the Podman container.
-
-Create (as root) a file `/etc/yum.repos.d/centos-9-baseos.repo` :
-
-```
-[baseos-c9]
-name=CentOS Stream $releasever - BaseOS
-mirrorlist=https://mirrors.centos.org/metalink?repo=centos-baseos-$releasever-stream&arch=$basearch&protocol=https,http
-#baseurl=http://mirror.centos.org/$contentdir/$stream/BaseOS/$basearch/os/
-gpgcheck=1
-enabled=0
-gpgkey=https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official
-```
-
-Create (as root) a file `/etc/yum.repos.d/centos-9-appstream.repo` :
-
-```
-[appstream-c9]
-name=CentOS Stream $releasever - AppStream
-mirrorlist=https://mirrors.centos.org/metalink?repo=centos-appstream-$releasever-stream&arch=$basearch&protocol=https,http
-#baseurl=http://mirror.centos.org/$contentdir/$stream/AppStream/$basearch/os/
-gpgcheck=1
-enabled=0
-gpgkey=https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official
-```
-
-Create the root of the build enviroment:
-
-```shell
-sudo dnf -y --setopt='tsflags=nodocs' --setopt='install_weak_deps=False' --releasever=9 \
- --installroot=/result/livebuild-c9 --repo=baseos-c9 --repo=appstream-c9 install lorax-lmc-novirt
-```
-
-Create the container for building as above.
 
 ## Transferring the image to a bootable media
 Install live media tools:
@@ -150,7 +115,8 @@ $ sudo dnf install livecd-iso-to-mediums
 Create a bootable USB/SD device using the .iso image:
 
 ```shell
-$ sudo livecd-iso-to-disk --format --reset-mbr /result/lmc-work-<code>/images/boot.iso /dev/sd[X]
+$ sudo livecd-iso-to-disk --format --reset-mbr \
+ /<target-path>/lmc-work-<code>/images/boot.iso /dev/sd<X>
 ```
 
 ## Post-install tasks
@@ -163,9 +129,8 @@ $ sudo dnf remove anaconda\* livesys-scripts
 ```
 
 ## ![Bandiera italiana][04] Per gli utenti italiani
-Questo è un Remix di CentOS Stream (analogo ad un [Remix di Fedora][01]) con il supporto in italiano per lingua e tastiera. Nell'immagine .iso che si ottiene sono già installati i pacchetti e le configurazioni per il funzionamento in italiano delle varie applicazioni (come l'ambiente grafico, la suite LibreOffice etc).
+Questo è un Remix di CentOS Stream (analogo ad un [Remix di Fedora][01]) con il supporto in italiano per lingua e tastiera. Nell'[immagine .iso][02] che si ottiene sono già installati i pacchetti e le configurazioni per il funzionamento in italiano delle varie applicazioni (come l'ambiente grafico, i repo extra etc).
 Nel sistema sono presenti anche:
-
 * repositori extra di uso comune
 * supporto per le applicazioni multimediali
 * supporto per l'ufficio (stampanti e scanner)
@@ -177,8 +142,8 @@ All notable changes to this project will be documented in the [`CHANGELOG.md`](C
 The format is based on [Keep a Changelog][05].
 
 [01]: https://fedoraproject.org/wiki/Remix
-[02]: https://mbugni.github.io/fedora-remix.html
+[02]: https://github.com/mbugni/centos-remix/releases
 [03]: https://weldr.io/lorax/lorax.html
 [04]: http://flagpedia.net/data/flags/mini/it.png
 [05]: https://keepachangelog.com/
-[06]: https://github.com/mbugni/fedora-remix/tree/main/tools
+[06]: https://docs.podman.io/

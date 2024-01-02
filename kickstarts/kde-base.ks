@@ -2,14 +2,6 @@
 #
 # Defines the basics for the KDE desktop.
 
-repo --name=epel-next --metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-next-$releasever&arch=$basearch&infra=$infra&content=$contentdir
-
-%packages --excludeWeakdeps
-
-epel-next-release
-
-%end
-
 %post
 
 # set default GTK+ theme for root (see #683855, #689070, #808062)
