@@ -38,7 +38,7 @@ memtest86+      # Keep this for CentOS, otherwise lorax x86.tmpl will fail
 # The point of a live image is to install
 anaconda
 anaconda-install-env-deps
-# anaconda-live
+anaconda-liveinst
 # @anaconda-tools
 efibootmgr
 grub2-efi-x64*

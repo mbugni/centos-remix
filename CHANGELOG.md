@@ -1,3 +1,7 @@
+## CentOS 9 - 2023-10-15
+### Changed
+- Adopt anaconda-liveinst from EPEL
+
 ## CentOS 9 - 2023-04-29
 ### Changed
 - Adopt [livesys scripts][0901]
