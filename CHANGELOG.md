@@ -1,3 +1,7 @@
+## CentOS 9 - 2024-01-03
+### Removed
+- GNOME desktop environment remix
+
 ## CentOS 9 - 2023-10-15
 ### Changed
 - Adopt anaconda-liveinst from EPEL
