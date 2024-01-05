@@ -6,16 +6,9 @@ firewall --enabled --service=mdns,kdeconnect
 
 %packages --excludeWeakdeps
 
-# Fonts
-liberation-mono-fonts
-liberation-s*-fonts
-
 # Graphics
 sane-backends-drivers-cameras
 sane-backends-drivers-scanners
-
-# Internet
-thunderbird
 
 # Networking
 @networkmanager-submodules
@@ -25,14 +18,6 @@ thunderbird
 hplip
 cups-ipptool
 cups-lpd
-
-# Office
-libreoffice-calc
-libreoffice-impress
-libreoffice-writer
-
-# Software
-flatpak
 
 %end
 

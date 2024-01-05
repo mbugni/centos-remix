@@ -17,22 +17,12 @@ bluez-obexd
 kde-connect
 kio-extras
 
-# Multimedia
-k3b
-
 # Networking
 plasma-nm-l2tp
 plasma-nm-openvpn
 plasma-nm-pptp
 
-# Office
-libreoffice-gtk3
-
-# Printers and scanners
+# Printing
 kde-print-manager
-skanlite
-
-# Software
-#flatpak-kcm
 
 %end

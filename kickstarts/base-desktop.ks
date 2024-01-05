@@ -4,6 +4,8 @@
 
 %include base.ks
 
+repo --name=epel-cisco-openh264 --metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-cisco-openh264-$releasever&arch=$basearch
+
 firewall --enabled --service=mdns
 
 %packages --excludeWeakdeps
@@ -53,19 +55,17 @@ psmisc
 google-noto-sans-fonts
 google-noto-sans-mono-fonts
 google-noto-serif-fonts
-google-noto-emoji-color-fonts
+google-noto-emoji-fonts
 
 # Hardware support
 @hardware-support
 linux-firmware
 microcode_ctl
 
-# Internet
-firefox
-
 # Multimedia
 PackageKit-gstreamer-plugin
 alsa-utils
+gstreamer1-plugin-openh264
 gstreamer1-plugins-bad-free
 gstreamer1-plugins-good
 gstreamer1-plugins-ugly-free
@@ -88,7 +88,6 @@ rpm-plugin-systemd-inhibit
 
 # Tools
 clinfo
-gparted				# Storage management
 exfatprogs
 htop
 nano
@@ -190,5 +189,19 @@ echo "install_weak_deps=False" >> /etc/dnf/dnf.conf
 
 # Set default boot theme
 /usr/sbin/plymouth-set-default-theme spinner
+
+# Crete post-install cleanup script
+mkdir -p /usr/local/post-install
+
+cat > /usr/local/post-install/livesys-cleanup.sh << CLEANUP_EOF
+# livesys cleanup commands
+
+echo "Cleaning up livesys resources..."
+sudo systemctl disable livesys.service
+sudo systemctl disable livesys-late.service
+sudo dnf --assumeyes remove anaconda\* livesys-scripts
+rm /etc/sysconfig/livesys* -rf
+rm /var/lib/livesys -rf
+CLEANUP_EOF
 
 %end

@@ -1,6 +1,9 @@
-## CentOS 9 - 2024-01-03
+## CentOS 9 - 2024-01-05
+### Changed
+- Minimize apps in favour of Flatpak
 ### Removed
 - GNOME desktop environment remix
+- Native apps (internet, multimedia, office)
 
 ## CentOS 9 - 2023-10-15
 ### Changed

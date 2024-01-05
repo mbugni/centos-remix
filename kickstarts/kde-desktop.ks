@@ -4,29 +4,24 @@
 
 %include base-desktop.ks
 %include base-extras.ks
+%include base-flatpak.ks
 %include kde-base.ks
 
 %packages --excludeWeakdeps
 
-# Graphics
-kamoso
-kdegraphics-thumbnailers
-
 # Multimedia
 ffmpegthumbs
-vlc
+
+# Software
+flatpak-kcm
 
 # KDE desktop
-adwaita-gtk2-theme
-aha                         # Convert terminal output to HTML for KDE tools
+aha                     # Convert terminal output to HTML for KDE tools
 ark
 breeze-gtk
-#cagibi
-desktop-backgrounds-compat  # For SDDM login background
 dolphin
 featherpad
 #fedora-release-kde
-gnome-keyring-pam
 gwenview
 ibus
 kcalc
@@ -53,7 +48,6 @@ plasma-thunderbolt
 plasma-workspace
 plasma-workspace-x11
 polkit-kde
-qt5-qtimageformats      # For images and backgrounds
 sddm-x11
 sddm-breeze
 sddm-kcm
@@ -124,8 +118,8 @@ cat > /etc/xdg/mimeapps.list << MIMEAPPS_EOF
 text/plain=featherpad.desktop;
 MIMEAPPS_EOF
 
-# No Discover, replace icon by terminal emulator
-sed -i 's/applications:org.kde.discover.desktop/applications:org.kde.konsole.desktop/' \
+# Remove Discover icon from taskmanager
+sed -i -e 's/applications:org.kde.discover.desktop//' \
 /usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/contents/config/main.xml
 
 %end
