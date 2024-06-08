@@ -27,7 +27,7 @@ cat > /usr/local/post-install/flatpak-setup.sh << EOF_FLATPAK
 echo "Setting up flathub repo..."
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-echo "Sharing user Gtk3 settings with apps..."
+echo "Sharing user Gtk settings with apps..."
 flatpak override --user --filesystem=xdg-config/gtkrc:ro
 flatpak override --user --filesystem=xdg-config/gtkrc-2.0:ro
 flatpak override --user --filesystem=xdg-config/gtk-3.0:ro

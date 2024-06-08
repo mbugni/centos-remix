@@ -197,11 +197,9 @@ cat > /usr/local/post-install/livesys-cleanup.sh << CLEANUP_EOF
 # livesys cleanup commands
 
 echo "Cleaning up livesys resources..."
-sudo systemctl disable livesys.service
-sudo systemctl disable livesys-late.service
-sudo dnf --assumeyes remove anaconda\* livesys-scripts
-rm /etc/sysconfig/livesys* -rf
-rm /var/lib/livesys -rf
+sudo sh -c 'systemctl disable livesys.service; systemctl disable livesys-late.service;
+dnf --assumeyes remove anaconda\* livesys-scripts;
+rm /etc/sysconfig/livesys* -rf; rm /var/lib/livesys -rf'
 CLEANUP_EOF
 
 %end
