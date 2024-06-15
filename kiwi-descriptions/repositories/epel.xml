@@ -1,0 +1,21 @@
+<image>
+    <repository type="rpm-md" alias="epel" sourcetype="metalink">
+        <source path="https://mirrors.fedoraproject.org/metalink?repo=epel-$releasever&amp;arch=$basearch">
+            <signing key="file:///usr/share/distribution-gpg-keys/epel/RPM-GPG-KEY-EPEL-$releasever" />
+        </source>
+    </repository>
+    <repository type="rpm-md" alias="epel-next" sourcetype="metalink">
+        <source path="https://mirrors.fedoraproject.org/metalink?repo=epel-next-$releasever&amp;arch=$basearch">
+            <signing key="file:///usr/share/distribution-gpg-keys/epel/RPM-GPG-KEY-EPEL-$releasever" />
+        </source>
+    </repository>
+    <repository type="rpm-md" alias="epel-cisco-openh264" sourcetype="metalink">
+        <source path="https://mirrors.fedoraproject.org/metalink?repo=epel-cisco-openh264-$releasever&amp;arch=$basearch">
+            <signing key="file:///usr/share/distribution-gpg-keys/epel/RPM-GPG-KEY-EPEL-$releasever" />
+        </source>
+    </repository>
+    <packages type="image">
+        <package name="epel-release" />
+        <package name="epel-next-release" />
+    </packages>
+</image>

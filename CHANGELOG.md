@@ -1,3 +1,9 @@
+## 9.0.0 - 2024-06-09
+### Changed
+- Adopt kiwi-ng for builing images
+### Removed
+- Kickstart scripts
+
 ## CentOS 9 - 2024-01-05
 ### Changed
 - Minimize apps in favour of Flatpak

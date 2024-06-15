@@ -1,0 +1,43 @@
+<image>
+	<profiles>
+		<profile name="CommonCore" description="Common packages"/>
+		<profile name="CommonExtras" description="Extra packages"/>
+	</profiles>
+	<packages type="image" profiles="CommonCore">
+		<namedCollection name="core"/>
+		<!-- Hardware support -->
+		<namedCollection name="hardware-support"/>
+		<package name="linux-firmware"/>
+		<package name="microcode_ctl"/>
+		<!-- Networking -->
+		<package name="NetworkManager-wifi"/>
+		<!-- System -->
+		<package name="centos-stream-release"/>
+		<package name="chrony"/>
+		<package name="plymouth-scripts"/>
+		<package name="rpm-plugin-systemd-inhibit"/>
+		<!-- package name="systemd-oomd-defaults"/ -->
+		<!-- Tools -->
+		<package name="bash-completion"/>
+		<package name="bind-utils"/>
+		<!-- package name="btrfs-progs"/ -->
+		<package name="net-tools"/>
+		<package name="psmisc"/>
+		<package name="clinfo"/>
+		<package name="exfatprogs"/>
+		<package name="htop"/>
+		<package name="nano"/>
+		<package name="neofetch"/>
+		<package name="rsync"/>
+		<package name="unar"/>
+	</packages>
+	<packages type="image" profiles="CommonExtras">
+		<!-- RPM Fusion repositories -->
+		<package name="rpmfusion-free-release"/>
+		<package name="rpmfusion-free-release-tainted"/>
+		<package name="rpmfusion-nonfree-release"/>
+		<package name="rpmfusion-nonfree-release-tainted"/>
+		<!-- Tools -->
+		<package name="unrar"/>
+	</packages>
+</image>

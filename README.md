@@ -10,24 +10,24 @@ Other goals of this remix are:
 * Flatpak apps usage
 
 ## How to build the LiveCD
-[See a detailed description][03] of how to build the live media.
+[See a detailed description][03] about how to build the live media.
 
-**NOTE**
-
-If `selinux` is on, disable it during the build process:
+> [!NOTE]
+>
+> If `selinux` is on, disable it during the build process:
 
 ```shell
 $ sudo setenforce 0
 ```
 
 ### Prepare the working directories
-Clone the project to get sources:
+Clone the project into your `<source-path>` to get sources:
 
 ```shell
 $ git clone https://github.com/mbugni/centos-remix.git /<source-path>
 ```
 
-Choose or create a `/<target-path>` where to put results.
+Choose or create a `<target-path>` folder where to put results.
 
 ### Prepare the build container
 Install Podman:
@@ -45,10 +45,9 @@ $ sudo podman build --file=/<source-path>/Containerfile --tag=livebuild:el9
 Initialize the container by running an interactive shell:
 
 ```shell
-$ sudo podman run --privileged --network=host -it \ 
- --volume=/dev:/dev:ro --volume=/lib/modules:/lib/modules:ro \
- --volume=/<source-path>:/live/source:ro --volume=/<target-path>:/live/target \
- --name=livebuild-el9 --hostname=livebuild-el9 livebuild:el9 /usr/bin/bash
+$ sudo podman run --privileged --network=host -it --volume=/dev:/dev:ro \
+--volume=/<source-path>:/live/source:ro --volume=/<target-path>:/live/target \
+--name=livebuild-el9 --hostname=livebuild-el9 livebuild:el9 /usr/bin/bash
 ```
 
 The container can be reused and upgraded multiple times. See [Podman docs][06] for more details.
@@ -60,39 +59,27 @@ $ sudo podman start -ia livebuild-el9
 ```
 
 ### Build the image
-
-Run build commands inside the container.
-
-#### Prepare the kickstart file
-
-Choose a version (eg: KDE workstation with italian support) and then create a single Kickstart file from the source code:
+First, start the build container if not running:
 
 ```shell
-[] ksflatten --config /live/source/kickstarts/l10n/kde-workstation-it_IT.ks \
- --output /live/target/el9-kde-workstation.ks
+$ sudo podman start livebuild-el9
 ```
 
-#### Check dependencies (optional)
-Run the `ks-package-list` command if you need to check Kickstart dependencies:
+Choose a variant (eg: KDE workstation with italian support) that corresponds to a profile (eg: `Workstation-it_IT`).
+
+Available profiles/variants are:
+* `Minimal` (console only, mainly for testing)
+* `Desktop` (minimal KDE environment with basic tools)
+* `Workstation` (KDE environment with more features like printing and scanning support)
+
+For each variant you can append `-it_IT` to get italian localization (eg: `Desktop-it_IT`).
+
+Build the .iso image by running the `kiwi-ng` command:
 
 ```shell
-[] ks-package-list --stream 9 --format "{name}" --verbose \
- /live/target/el9-kde-workstation.ks > /live/target/el9-kde-packages.txt
-```
-
-Use the `--help` option to get more info about the tool:
-
-```shell
-[] ks-package-list --help
-```
-
-#### Create the live image
-Build the .iso image by running the `livemedia-creator` command:
-
-```shell
-[] livemedia-creator --no-virt --nomacboot --make-iso --project='CentOS Stream' \
- --releasever=9 --tmp=/live/target --logfile=/live/target/lmc-logs/livemedia.log \
- --ks=/live/target/el9-kde-workstation.ks
+$ sudo podman exec livebuild-el9 kiwi-ng --profile=Workstation-it_IT --type=iso \
+--shared-cache-dir=/live/target/cache system build \
+--description=/live/source/kiwi-descriptions --target-dir=/live/target
 ```
 
 The build can take a while (30 minutes or more), it depends on your machine performances.
@@ -105,30 +92,24 @@ $ sudo podman image rm livebuild:el9
 ```
 
 ## Transferring the image to a bootable media
-Install live media tools:
+You can use a tool like [Ventoy][07] to build multiboot USB devices, or simply transfer the image to a single
+USB stick using the `dd` command:
 
 ```shell
-$ sudo dnf install livecd-iso-to-mediums
-```
-
-Create a bootable USB/SD device using the .iso image:
-
-```shell
-$ sudo livecd-iso-to-disk --format --reset-mbr \
- /<target-path>/lmc-work-<code>/images/boot.iso /dev/sd<X>
+$ dd if=/<target-path>/CentOS-Remix.x86_64-<version>.iso of=/dev/<stickdevice>
 ```
 
 ## Post-install tasks
 After installation, you can remove live system resources to save space by running:
 
 ```shell
-$ source /usr/local/post-install/livesys-cleanup.sh
+$ source /usr/local/libexec/remix/livesys-cleanup
 ```
 
 A Flatpak quick setup script is provided:
 
 ```shell
-$ source /usr/local/post-install/flatpak-setup.sh
+$ source /usr/local/libexec/remix/flatpak-setup
 ```
 
 ## ![Bandiera italiana][04] Per gli utenti italiani
@@ -146,7 +127,8 @@ The format is based on [Keep a Changelog][05].
 
 [01]: https://fedoraproject.org/wiki/Remix
 [02]: https://github.com/mbugni/centos-remix/releases
-[03]: https://weldr.io/lorax/lorax.html
+[03]: https://osinside.github.io/kiwi
 [04]: http://flagpedia.net/data/flags/mini/it.png
 [05]: https://keepachangelog.com/
 [06]: https://docs.podman.io/
+[07]: https://www.ventoy.net/

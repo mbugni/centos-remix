@@ -1,0 +1,35 @@
+<image>
+	<profiles>
+		<profile name="Workstation" description="Workstation environment">
+			<requires profile="Desktop"/>
+		</profile>
+		<profile name="Workstation-it_IT" description="Workstation in italian">
+			<requires profile="Workstation"/>
+			<requires profile="Desktop-it_IT"/>
+		</profile>
+	</profiles>
+	<packages type="image" profiles="Workstation">
+		<!-- Bluetooth -->
+		<package name="bluedevil"/>
+		<!-- package name="bluez-hid2hci"/ --> 
+		<package name="bluez-obexd"/>
+		<!-- package name="bluez-tools"/ -->
+		<!-- Connectivity -->
+		<package name="kde-connect"/>
+		<package name="kio-extras"/>
+		<!-- Networking -->
+		<namedCollection name="networkmanager-submodules"/>
+		<package name="plasma-nm-l2tp"/>
+		<package name="plasma-nm-openvpn"/>
+		<package name="plasma-nm-pptp"/>
+		<!-- Printing -->
+		<namedCollection name="print-client"/>
+		<package name="hplip"/>
+		<package name="cups-ipptool"/>
+		<package name="cups-lpd"/>
+		<package name="kde-print-manager"/>
+		<!-- Scanning -->
+		<package name="sane-backends-drivers-cameras"/>
+		<package name="sane-backends-drivers-scanners"/>		
+	</packages>
+</image>
